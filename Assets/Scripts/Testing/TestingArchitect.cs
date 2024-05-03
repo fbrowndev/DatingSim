@@ -9,6 +9,8 @@ namespace TESTING
         DialogueSystem ds;
         TextArchitect architect;
 
+        public TextArchitect.BuildMethod bm = TextArchitect.BuildMethod.instant;
+
         string[] lines = new string[6]
         {
             "This is a random line of text...guess what? this is a random long line of text. Pretty cool right",
@@ -24,12 +26,24 @@ namespace TESTING
         {
             ds = DialogueSystem.instance;
             architect = new TextArchitect(ds.dialogueContainer.dialogueText);
-            architect.buildMethod = TextArchitect.BuildMethod.typewriter;
+            architect.buildMethod = TextArchitect.BuildMethod.fade;
         }
 
         // Update is called once per frame
         void Update()
         {
+            if(bm != architect.buildMethod)
+            {
+                architect.buildMethod = bm;
+                architect.Stop();
+            }
+
+            if(Input.GetKeyDown(KeyCode.S))
+            {
+                architect.Stop();
+            }
+
+
             if(Input.GetKeyDown(KeyCode.Space))
             {
                 if (architect.isBuilding)
